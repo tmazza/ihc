@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar color='primary'>
+    <ion-title>Nova tarefa</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+    <ion-list>
+      <ion-item>
+        <ion-textarea [(ngModel)]="task.description" placeholder="Descrição" ></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <button color='secondary' ion-button block (click)="submit()" [disabled]="!task.description">
+      Adicionar tarefa
+    </button>
+
+</ion-content>

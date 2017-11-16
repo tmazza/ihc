@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar color='primary'>
+    <ion-title>
+      To Do
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-list>
+      
+      <ion-item-sliding *ngFor='let t of tasks;'>
+        <ion-item text-wrap>
+          <h2>{{t.description}}</h2>
+
+          <ion-avatar item-end>
+            <button ion-button small (click)="setDone(t)">
+              Done
+            </button>
+          </ion-avatar>
+
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="delete(t)">
+            <ion-icon name="trash"></ion-icon>
+            Excluir
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ion-list>
+
+    <ion-fab right bottom>
+        <button ion-fab color="secondary" (click)="goToAddTask()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+
+</ion-content>

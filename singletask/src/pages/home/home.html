@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar color='primary'>
+    <ion-title>
+      To Do
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToEditTask()">
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <span *ngIf="currentTask">
+    <br>
+    <h4 text-center>Atividade a ser realizada</h4>
+    <br>
+    <h2 text-center>{{ currentTask.description }}</h2>
+    <div text-center>
+      <button ion-button small (click)="setDone(currentTask)">
+        Done
+      </button>
+    </div>
+  </span>
+
+  <span *ngIf="!currentTask">
+    <br>
+    <h4 text-center>Nenhuma atividade.</h4>
+  </span>
+
+  <ion-fab right bottom>
+      <button ion-fab color="secondary" (click)="goToAddTask()">
+          <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-fab>
+
+</ion-content>
