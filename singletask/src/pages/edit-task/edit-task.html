@@ -18,13 +18,13 @@
       <ion-item-group reorder="true" (ionItemReorder)="reorderItems($event)">
 
         <ion-item text-wrap *ngFor='let t of tasks;'>
-            <h2 [ngClass]="{'done':t.done}">
-                <button *ngIf="!t.done" ion-button outline  (click)="delete(t)">
-                  <ion-icon name="trash"></ion-icon>
-                </button>
-                <ion-icon *ngIf="t.done" color="secondary" name="checkmark"></ion-icon>
-                {{t.description}}
-            </h2>
+          <h2 [ngClass]="{'done':t.done}">
+<!--               <button *ngIf="!t.done" ion-button outline  (click)="delete(t)">
+                <ion-icon name="trash"></ion-icon>
+              </button> -->
+              <ion-icon *ngIf="t.done" color="secondary" name="checkmark"></ion-icon>
+              {{t.description}}
+          </h2>
         </ion-item>
 
       </ion-item-group>

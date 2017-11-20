@@ -46,7 +46,8 @@ export class HomePage {
           text: 'Confirmar',
           handler: () => {
             task.done = true;
-            this.taskProvider.update(task);
+            this.taskProvider.delete(task);
+            // this.taskProvider.update(task);
             this.refresh();
           }
         }

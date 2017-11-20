@@ -22,18 +22,13 @@ export class EditTask {
   refresh() {
     this.tasks = this.taskProvider.getAll();
 
-    // TODO: rever!!
-    let fnSort = (a, b) => {
-      if(a.done && b.done) {
-        return 0;
-      } else if(a.done) {
-        return a._id < b._id;
-      } else {
-        return -1;
-      }
-    }
-
-    this.tasks.sort(fnSort);
+    // let fnSort = (a, b) => {
+    //   if(a.done && !b.done) return +1; // sort: b, a
+    //   if(b.done && !a.done) return -1; // sort: a, b
+    //   return 0; 
+    // }
+    // this.tasks = this.tasks.sort(fnSort);
+    // console.log(this.tasks)
   }
 
   reorderItems(indexes) {
