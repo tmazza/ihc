@@ -12,13 +12,12 @@
 
   <div class="nsb-button" 
        (click)="toggleAddTask()" 
-       [@addButton]="button_state">+</div>
-  
+       [@addButton]="button_state">+</div>  
   <div [hidden]="!show_add_task" *ngIf="new_task">
     <hr>
     <ion-list>
       <ion-item>
-        <ion-textarea [(ngModel)]="new_task.description" placeholder="New cool stuff to do"></ion-textarea>
+        <ion-textarea [(ngModel)]="new_task.description" placeholder="New cool stuff to be done"></ion-textarea>
       </ion-item>
     </ion-list>
     <button color='secondary' ion-button block (click)="add_task()" [disabled]="!new_task.description">

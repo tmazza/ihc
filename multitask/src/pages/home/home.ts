@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { Task } from '../../providers/task';
 import { DateTime } from 'luxon';
@@ -15,10 +15,9 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       transition('inactive => active', animate('200ms ease-in')),
       transition('active => inactive', animate('200ms ease-out'))
     ]),
-  ]
+  ],
 })
 export class HomePage {
-  @ViewChild('inputAdd') inputAdd;
 
   public button_state: string = 'inactive';
 
@@ -34,10 +33,50 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public taskProvider: Task,
               public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController) {
+
+    this.check_yesterday();
+
     let today = DateTime.local().setZone('America/Sao_Paulo');
     this.day = ("0" + today.day).slice(-2);
     this.month = ("0" + today.month).slice(-2);
     this.refresh();
+  }
+
+  check_yesterday() {
+    if(!this.taskProvider.todayIsSet()) {
+      let yesterday_tasks = this.taskProvider.getAll(this.taskProvider.getYesterdayID());
+
+      let tasks_not_done = [];
+      for(let t of yesterday_tasks) {
+        if(!t.done) {
+          tasks_not_done.push(t);
+        }
+      }
+      if(tasks_not_done.length > 0) {
+        let confirm = this.alertCtrl.create({
+          title: 'Importar tarefas não finalizadas ontem?',
+          message: '"' + tasks_not_done.map(t=>t.description).join('", "') + '"',
+          buttons: [
+            {
+              text: 'Não',
+              handler: () => {
+                this.taskProvider.setID(0);
+              }
+            },
+            {
+              text: 'Sim, importar',
+              handler: () => {
+                for(let t of tasks_not_done) {
+                  this.taskProvider.add(t);
+                }
+                this.refresh();
+              }
+            }
+          ]
+        });
+        confirm.present();
+      }
+    }
   }
  
   refresh() {
@@ -89,9 +128,6 @@ export class HomePage {
   toggleAddTask() {
     this.show_add_task = !this.show_add_task;
     this.button_state = this.show_add_task ? 'active' : 'inactive';
-    // if(this.show_add_task) {
-    //   this.inputAdd.nativeElement.nativeElement.focus();
-    // }
   }
 
 }
