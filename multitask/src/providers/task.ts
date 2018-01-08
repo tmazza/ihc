@@ -42,7 +42,6 @@ export class Task {
         return elm._id == data._id;
       };
       let index = all.findIndex(findById);
-      console.log(index)
       all.splice(index, 1);
       localStorage.setItem(this.id, JSON.stringify(all));
     }

@@ -1,40 +1,27 @@
-<ion-header>
-  <ion-navbar color='primary'>
-    <ion-title>
-      To Do
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content padding>
-
+  <h3 text-center>{{day}}/{{month}}</h3>
+  <hr>
+  <ul class='nsb-list'>
+    <li *ngFor='let t of tasks;'
+        (press)="delete(t)"
+        (dblclick)="toggleDone(t)">
+      <span *ngIf="t.done"><s>{{t.description}}</s></span>
+      <span *ngIf="!t.done">{{t.description}}</span>
+    </li>
+  </ul>
+  <div class="nsb-button" (click)="toggleAddTask()">
+    <span [hidden]="show_add_task">+</span>
+    <span [hidden]="!show_add_task">&times;</span>
+  </div>
+  <div [hidden]="!show_add_task" *ngIf="new_task">
+    <hr>
     <ion-list>
-      
-      <ion-item-sliding *ngFor='let t of tasks;'>
-        <ion-item text-wrap>
-          <h2>{{t.description}}</h2>
-
-          <ion-avatar item-end>
-            <button ion-button small (click)="setDone(t)">
-              Done
-            </button>
-          </ion-avatar>
-
-        </ion-item>
-        <ion-item-options side="right">
-          <button ion-button color="danger" (click)="delete(t)">
-            <ion-icon name="trash"></ion-icon>
-            Excluir
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-
+      <ion-item>
+        <ion-textarea [(ngModel)]="new_task.description" placeholder="New cool stuff to do"></ion-textarea>
+      </ion-item>
     </ion-list>
-
-    <ion-fab right bottom>
-        <button ion-fab color="secondary" (click)="goToAddTask()">
-            <ion-icon name="add"></ion-icon>
-        </button>
-    </ion-fab>
-
+    <button color='secondary' ion-button block (click)="add_task()" [disabled]="!new_task.description">
+      add
+    </button>
+  </div>
 </ion-content>

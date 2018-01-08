@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { Task } from '../../providers/task';
+import { DateTime } from 'luxon';
 
 @IonicPage()
 @Component({
@@ -8,49 +9,55 @@ import { Task } from '../../providers/task';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  public tasks: any;
+  public day: string;
+  public month: string;
 
-  tasks: any;
+  public show_add_task: boolean = false;
+  public new_task: any = {
+    description: null,
+    done: false,
+  };
 
   constructor(public navCtrl: NavController, public taskProvider: Task,
-              public alertCtrl: AlertController) {}
-
-  ionViewWillEnter() {
+              public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController) {
+    let today = DateTime.local().setZone('America/Sao_Paulo');
+    this.day = ("0" + today.day).slice(-2);
+    this.month = ("0" + today.month).slice(-2);
     this.refresh();
   }
-
+ 
   refresh() {
-    let notDone = (v) => { return !v.done; };
-    this.tasks = this.taskProvider.getAll().filter(notDone);
+    // let notDone = (v) => { return !v.done; };
+    this.tasks = this.taskProvider.getAll();//.filter(notDone);
   }
 
   goToAddTask() {
     this.navCtrl.push("AddTask");
   }
 
-  setDone(task) {
-    let confirm = this.alertCtrl.create({
-      title: 'Tarefa realizada?',
-      message: 'Confirma realização da tarefa <b>' + task.description + '</b>?',
+  toggleDone(task) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: (task.done ? 'Redo' : 'Done') + ' "' + task.description + '"?' ,
       buttons: [
-        {
-          text: 'Cancelar',
-          handler: () => {}
-        },
-        {
-          text: 'Confirmar',
+        { text: 'Yes, ' + (task.done ? 'lets redo' : 'its done'),
           handler: () => {
-            task.done = true;
+            task.done = !task.done;
             this.taskProvider.update(task);
             this.refresh();
           }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {}
         }
       ]
     });
-    confirm.present();
+    actionSheet.present();
   }
 
   delete(task) {
-        let confirm = this.alertCtrl.create({
+    let confirm = this.alertCtrl.create({
       title: 'Excluir tarefa?',
       message: 'Confirma exclusão da tarefa <b>' + task.description + '</b>?',
       buttons: [
@@ -68,6 +75,20 @@ export class HomePage {
       ]
     });
     confirm.present();
+  }
+
+  add_task() {
+    this.taskProvider.add(this.new_task);
+    this.new_task = {
+      description: null,
+      done: false,
+    }
+    this.refresh();
+    this.toggleAddTask();
+  }
+  
+  toggleAddTask() {
+    this.show_add_task = !this.show_add_task;
   }
 
 }
