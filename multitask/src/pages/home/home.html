@@ -4,7 +4,7 @@
   <ul class='nsb-list'>
     <li *ngFor='let t of tasks;'
         (press)="delete(t)"
-        (dblclick)="toggleDone(t)">
+        (tap)="toggleDone(t)">
       <span *ngIf="t.done"><s>{{t.description}}</s></span>
       <span *ngIf="!t.done">{{t.description}}</span>
     </li>

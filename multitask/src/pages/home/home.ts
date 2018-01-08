@@ -37,23 +37,27 @@ export class HomePage {
   }
 
   toggleDone(task) {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: (task.done ? 'Redo' : 'Done') + ' "' + task.description + '"?' ,
-      buttons: [
-        { text: 'Yes, ' + (task.done ? 'lets redo' : 'its done'),
-          handler: () => {
-            task.done = !task.done;
-            this.taskProvider.update(task);
-            this.refresh();
-          }
-        }, {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {}
-        }
-      ]
-    });
-    actionSheet.present();
+    task.done = !task.done;
+    this.taskProvider.update(task);
+    this.refresh();
+    // -- Confirmação de ação
+    // let actionSheet = this.actionSheetCtrl.create({
+    //   title: (task.done ? 'Redo' : 'Done') + ' "' + task.description + '"?' ,
+    //   buttons: [
+    //     { text: 'Yes, ' + (task.done ? 'lets redo' : 'its done'),
+    //       handler: () => {
+    //         task.done = !task.done;
+    //         this.taskProvider.update(task);
+    //         this.refresh();
+    //       }
+    //     }, {
+    //       text: 'Cancel',
+    //       role: 'cancel',
+    //       handler: () => {}
+    //     }
+    //   ]
+    // });
+    // actionSheet.present();
   }
 
   delete(task) {
