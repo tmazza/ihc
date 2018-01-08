@@ -5,7 +5,7 @@ import { Task } from '../../providers/task';
 
 @NgModule({
   declarations: [HomePage],
-  imports: [IonicPageModule.forChild(HomePage)],
+  imports: [IonicPageModule.forChild(HomePage) ],
   providers: [Task],
 })
 export class HomePageModule { }

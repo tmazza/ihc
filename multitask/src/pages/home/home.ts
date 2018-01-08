@@ -2,13 +2,31 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { Task } from '../../providers/task';
 import { DateTime } from 'luxon';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @IonicPage()
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  animations: [
+    trigger('doneState', [
+      transition('void => *', [
+        style({transform: 'translateY(-100%)'}),
+        animate(200),
+      ]),
+    ]),
+    trigger('addButton', [
+      state('inactive', style({ transform: 'rotate(0deg)', })),
+      state('active', style({ transform: 'rotate(135deg)', fontSize: '2.2em', })),
+      transition('inactive => active', animate('200ms ease-in')),
+      transition('active => inactive', animate('200ms ease-out'))
+    ]),
+  ]
 })
 export class HomePage {
+   
+  public button_state: string = 'inactive';
+
   public tasks: any;
   public day: string;
   public month: string;
@@ -40,24 +58,6 @@ export class HomePage {
     task.done = !task.done;
     this.taskProvider.update(task);
     this.refresh();
-    // -- Confirmação de ação
-    // let actionSheet = this.actionSheetCtrl.create({
-    //   title: (task.done ? 'Redo' : 'Done') + ' "' + task.description + '"?' ,
-    //   buttons: [
-    //     { text: 'Yes, ' + (task.done ? 'lets redo' : 'its done'),
-    //       handler: () => {
-    //         task.done = !task.done;
-    //         this.taskProvider.update(task);
-    //         this.refresh();
-    //       }
-    //     }, {
-    //       text: 'Cancel',
-    //       role: 'cancel',
-    //       handler: () => {}
-    //     }
-    //   ]
-    // });
-    // actionSheet.present();
   }
 
   delete(task) {
@@ -93,6 +93,7 @@ export class HomePage {
   
   toggleAddTask() {
     this.show_add_task = !this.show_add_task;
+    this.button_state = this.show_add_task ? 'active' : 'inactive';
   }
 
 }

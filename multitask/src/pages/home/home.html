@@ -3,16 +3,17 @@
   <hr>
   <ul class='nsb-list'>
     <li *ngFor='let t of tasks;'
+        [ngClass]="{'set-done':t.done}"
         (press)="delete(t)"
         (tap)="toggleDone(t)">
-      <span *ngIf="t.done"><s>{{t.description}}</s></span>
-      <span *ngIf="!t.done">{{t.description}}</span>
+      {{t.description}}
     </li>
   </ul>
-  <div class="nsb-button" (click)="toggleAddTask()">
-    <span [hidden]="show_add_task">+</span>
-    <span [hidden]="!show_add_task">&times;</span>
-  </div>
+
+  <div class="nsb-button" 
+       (click)="toggleAddTask()" 
+       [@addButton]="button_state">+</div>
+  
   <div [hidden]="!show_add_task" *ngIf="new_task">
     <hr>
     <ion-list>
