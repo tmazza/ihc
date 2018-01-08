@@ -71,6 +71,10 @@ export class Task {
 
   /// ID base
 
+  setDayID(id) {
+    this.id = id;
+  }
+
   getTodayID() {
     let today = DateTime.local().setZone('America/Sao_Paulo').plus({
       days: 0

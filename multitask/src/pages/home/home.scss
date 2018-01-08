@@ -21,6 +21,24 @@ page-home {
 	}
 	.set-done {
 		text-decoration: line-through;
-		opacity: 0.6;
+		opacity: 0.4;
+	}
+	.list .item-input.item-input-has-focus:last-child, .list .item-input.input-has-focus:last-child {
+		border-bottom-color: #000;
+		box-shadow: none;
+	}
+
+	.calendar {
+		display: block;
+		font-size: 1.6em;
+		text-align: center;
+		.hidden {
+			font-size: 0.6em;
+			opacity: 0;
+		}
+	}
+	.calendar-active {
+		background: blue;
+		font-size: 1em;
 	}
 }

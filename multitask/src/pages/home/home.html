@@ -1,7 +1,17 @@
 <ion-content padding>
-  <h3 text-center [@openCalendar]="open_calendar" (click)="open_calendar=open_calendar=='click'?'':'click'">
-    {{day}}/{{month}}
-  </h3>
+  <div class="calendar">
+    
+    <span (click)="updateDay('yesterday')" class='hidden' [@openCalendar]="open_calendar">
+      {{days.yesterday}}
+    </span>
+    <span (click)="open_calendar=open_calendar=='open'?'':'open'">
+      {{days.today}}
+    </span>
+    <span (click)="updateDay('tomorrow')" class='hidden' [@openCalendar]="open_calendar">
+      {{days.tomorrow}}
+    </span>
+
+  </div>
   <hr>
   <ul class='nsb-list'>
     <li *ngFor='let t of tasks;'
@@ -19,10 +29,10 @@
     <hr>
     <ion-list>
       <ion-item>
-        <ion-textarea [(ngModel)]="new_task.description" placeholder="New cool stuff to be done"></ion-textarea>
+        <ion-textarea #addInput [(ngModel)]="new_task.description" placeholder=""></ion-textarea>
       </ion-item>
     </ion-list>
-    <button color='secondary' ion-button block (click)="add_task()" [disabled]="!new_task.description">
+    <button color='dark' ion-button block (click)="add_task()" [disabled]="!new_task.description">
       add
     </button>
   </div>
