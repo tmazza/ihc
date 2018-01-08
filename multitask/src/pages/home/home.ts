@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { Task } from '../../providers/task';
 import { DateTime } from 'luxon';
@@ -9,12 +9,6 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   selector: 'page-home',
   templateUrl: 'home.html',
   animations: [
-    trigger('doneState', [
-      transition('void => *', [
-        style({transform: 'translateY(-100%)'}),
-        animate(200),
-      ]),
-    ]),
     trigger('addButton', [
       state('inactive', style({ transform: 'rotate(0deg)', })),
       state('active', style({ transform: 'rotate(135deg)', fontSize: '2.2em', })),
@@ -24,7 +18,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ]
 })
 export class HomePage {
-   
+  @ViewChild('inputAdd') inputAdd;
+
   public button_state: string = 'inactive';
 
   public tasks: any;
@@ -94,6 +89,9 @@ export class HomePage {
   toggleAddTask() {
     this.show_add_task = !this.show_add_task;
     this.button_state = this.show_add_task ? 'active' : 'inactive';
+    // if(this.show_add_task) {
+    //   this.inputAdd.nativeElement.nativeElement.focus();
+    // }
   }
 
 }
