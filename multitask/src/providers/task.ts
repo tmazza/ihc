@@ -73,14 +73,14 @@ export class Task {
 
   getTodayID() {
     let today = DateTime.local().setZone('America/Sao_Paulo').plus({
-      days: 1
+      days: 0
     });
     return this.makeID(today);
   }
 
   getYesterdayID() {
     let yesterday = DateTime.local().setZone('America/Sao_Paulo').minus({
-      days: 0,
+      days: 1,
     });
     return this.makeID(yesterday);
   }

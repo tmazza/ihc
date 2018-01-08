@@ -1,11 +1,13 @@
 <ion-content padding>
-  <h3 text-center>{{day}}/{{month}}</h3>
+  <h3 text-center [@openCalendar]="open_calendar" (click)="open_calendar=open_calendar=='click'?'':'click'">
+    {{day}}/{{month}}
+  </h3>
   <hr>
   <ul class='nsb-list'>
     <li *ngFor='let t of tasks;'
         [ngClass]="{'set-done':t.done}"
         (press)="delete(t)"
-        (tap)="toggleDone(t)">
+        (dblclick)="toggleDone(t)">
       {{t.description}}
     </li>
   </ul>

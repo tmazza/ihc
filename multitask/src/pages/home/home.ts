@@ -11,15 +11,23 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   animations: [
     trigger('addButton', [
       state('inactive', style({ transform: 'rotate(0deg)', })),
-      state('active', style({ transform: 'rotate(135deg)', fontSize: '2.2em', })),
-      transition('inactive => active', animate('200ms ease-in')),
-      transition('active => inactive', animate('200ms ease-out'))
+      state('active', style({ transform: 'rotate(225deg)', fontSize: '2.2em', })),
+      transition('inactive => active', animate('400ms ease-out')),
+      transition('active => inactive', animate('400ms ease-out'))
+    ]),
+    trigger('openCalendar', [
+      state('click', style({
+        background: 'red',
+        transform: 'translateX(90vw)'
+      })),
+      transition('* => click', animate("1000ms ease-out")),
     ]),
   ],
 })
 export class HomePage {
 
   public button_state: string = 'inactive';
+  public open_calendar: string = '';
 
   public tasks: any;
   public day: string;
@@ -80,8 +88,7 @@ export class HomePage {
   }
  
   refresh() {
-    // let notDone = (v) => { return !v.done; };
-    this.tasks = this.taskProvider.getAll();//.filter(notDone);
+    this.tasks = this.taskProvider.getAll();
   }
 
   goToAddTask() {
