@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, AlertController, ActionSheetController } from 'ionic-angular';
 import { Task } from '../../providers/task';
+import { CustomStorage } from '../../providers/custom-storage';
 import { DateTime } from 'luxon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -53,49 +54,55 @@ export class HomePage {
   };
 
   constructor(public navCtrl: NavController, public taskProvider: Task,
-              public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController) {
-    this.check_yesterday();
+              public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController,
+              public storage: CustomStorage) {
     this.today = DateTime.local().setZone('America/Sao_Paulo');
     this.real_today = this.getLabelDay(this.today);
+    this.check_yesterday();
     this.setCurrentDayData();
     this.refresh();
   }
 
   check_yesterday() {
-    if(!this.taskProvider.todayIsSet()) {
-      let yesterday_tasks = this.taskProvider.getAll(this.taskProvider.getYesterdayID());
+    let import_id = 'import-'+this.real_today;
+    this.storage.get(import_id).then((data) => {
+      if(data === null) {
+        let yesterday_tasks = this.taskProvider.getAll(this.taskProvider.getYesterdayID());
 
-      let tasks_not_done = [];
-      for(let t of yesterday_tasks) {
-        if(!t.done) {
-          tasks_not_done.push(t);
+        let tasks_not_done = [];
+        for(let t of yesterday_tasks) {
+          if(!t.done) {
+            tasks_not_done.push(t);
+          }
         }
-      }
-      if(tasks_not_done.length > 0) {
-        let confirm = this.alertCtrl.create({
-          title: 'Importar tarefas não finalizadas ontem?',
-          message: '"' + tasks_not_done.map(t=>t.description).join('", "') + '"',
-          buttons: [
-            {
-              text: 'Não',
-              handler: () => {
-                this.taskProvider.setID(0);
-              }
-            },
-            {
-              text: 'Sim, importar',
-              handler: () => {
-                for(let t of tasks_not_done) {
-                  this.taskProvider.add(t);
+        if(tasks_not_done.length > 0) {
+          let confirm = this.alertCtrl.create({
+            title: 'Importar tarefas não finalizadas ontem?',
+            message: '"' + tasks_not_done.map(t=>t.description).join('", "') + '"',
+            buttons: [
+              {
+                text: 'Não',
+                handler: () => {
+                  this.taskProvider.setID(0);
+                  this.storage.set(import_id, 1);
                 }
-                this.refresh();
+              },
+              {
+                text: 'Sim, importar',
+                handler: () => {
+                  for(let t of tasks_not_done) {
+                    this.taskProvider.add(t);
+                  }
+                  this.refresh();
+                  this.storage.set(import_id, 1);
+                }
               }
-            }
-          ]
-        });
-        confirm.present();
-      }
-    }
+            ]
+          });
+          confirm.present();
+        }
+      }    
+    });
   }
  
   refresh() {
