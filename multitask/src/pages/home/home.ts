@@ -16,11 +16,12 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       transition('active => inactive', animate('400ms ease-out'))
     ]),
     trigger('openCalendar', [
-      state('open', style({
-        opacity: 0.7,
-        fontSize: '0.8em',
-      })),
-      transition('* => open', animate("500ms")),
+      state('open', style({ opacity: 0.7, fontSize: '0.8em', })),
+      transition('* <=> open', animate("500ms")),
+    ]),
+    trigger('openCalendar2', [
+      state('open', style({ opacity: 0.6, fontSize: '0.5em', })),
+      transition('* => open', animate("1000ms")),
     ]),
   ],
 })
@@ -32,14 +33,17 @@ export class HomePage {
 
   public today: any;
   public today_id: any;
+  public real_today: any;
   public tasks: any;
   public day: string;
   public month: string;
 
   public days = {
+    twoDaysAgo: '',
     yesterday: '',
     today: '',
     tomorrow: '',
+    twoDaysFromNow: '',
   };
 
   public show_add_task: boolean = false;
@@ -52,6 +56,7 @@ export class HomePage {
               public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController) {
     this.check_yesterday();
     this.today = DateTime.local().setZone('America/Sao_Paulo');
+    this.real_today = this.getLabelDay(this.today);
     this.setCurrentDayData();
     this.refresh();
   }
@@ -140,11 +145,10 @@ export class HomePage {
     setTimeout(()=>{ this.addInput.setFocus(); }, 100)
   }
 
-  updateDay(label_day) {
+  updateDay(day_count = false) {
     if(this.open_calendar === 'open') {
       let day = this.today;
-      if(label_day === 'yesterday') day = day.minus({days:1})
-      if(label_day === 'tomorrow') day = day.plus({days:1})
+      if(day_count) day = day.plus({days:day_count})
       this.today = day;
       this.setCurrentDayData();
       this.refresh();
@@ -154,8 +158,10 @@ export class HomePage {
   setCurrentDayData() {
     this.today_id = this.taskProvider.makeID(this.today);
     this.days.today = this.getLabelDay(this.today);
+    this.days.twoDaysAgo = this.getLabelDay(this.today.minus({days:2}));
     this.days.yesterday = this.getLabelDay(this.today.minus({days:1}));
     this.days.tomorrow = this.getLabelDay(this.today.plus({days:1}));
+    this.days.twoDaysFromNow = this.getLabelDay(this.today.plus({days:2}));
     this.taskProvider.setDayID(this.today_id);
   }
 

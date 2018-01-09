@@ -32,9 +32,27 @@ page-home {
 		display: block;
 		font-size: 1.6em;
 		text-align: center;
+    	height: 1em;
 		.hidden {
+			padding-top: 4px;
+			display: inline-block;
 			font-size: 0.6em;
 			opacity: 0;
+		}
+		.current {
+			padding-top: 4px;
+			display: inline-block;
+		}
+		.bool {
+			display: block;
+			height: 4px;
+		    width: 5px;
+		    background: red;
+		    margin: 0 auto;
+		    border-radius: 10px;
+		}
+		.today {
+			border-top: 1px solid #c4c2c2;
 		}
 	}
 	.calendar-active {
