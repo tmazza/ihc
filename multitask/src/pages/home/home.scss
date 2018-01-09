@@ -1,7 +1,6 @@
 page-home {
 	.nsb-list li {
-		height: 3em;
-		line-height: 3em;
+		padding: 6px 0px;
 		margin-top: 4px;
 	}
 	.nsb-list li:active {
@@ -22,6 +21,7 @@ page-home {
 	.set-done {
 		text-decoration: line-through;
 		opacity: 0.4;
+		overflow: hidden;
 	}
 	.list .item-input.item-input-has-focus:last-child, .list .item-input.input-has-focus:last-child {
 		border-bottom-color: #000;

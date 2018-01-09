@@ -23,6 +23,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     trigger('openCalendar2', [
       state('open', style({ opacity: 0.6, fontSize: '0.5em', })),
       transition('* => open', animate("1000ms")),
+      transition('open => *', animate("200ms")),
     ]),
   ],
 })
