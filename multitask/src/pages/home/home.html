@@ -1,6 +1,6 @@
-<ion-content padding>
-  <div class="calendar">
+<ion-content padding (swipe)="swipeEvent($event)">
 
+  <div class="calendar">
     <span 
           [ngClass]="{'today':this.real_today==days.twoDaysAgo && open_calendar}" 
           (click)="updateDay(-2)" 

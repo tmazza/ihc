@@ -59,4 +59,21 @@ page-home {
 		background: blue;
 		font-size: 1em;
 	}
+
+	.slide-calendar {
+		width: auto;
+		height: 40px;
+		border: 1px solid #bed5cd;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space: nowrap;
+		.item {
+			height: 40px;
+			display: inline-block;
+			background: blue;
+			line-height: 40px;
+			font-size: 20px;
+		}		
+	}
+
 }

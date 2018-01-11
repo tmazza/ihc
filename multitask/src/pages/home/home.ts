@@ -18,7 +18,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     ]),
     trigger('openCalendar', [
       state('open', style({ opacity: 0.7, fontSize: '0.8em', })),
-      transition('* <=> open', animate("500ms")),
+      transition('* <=> *', animate("400ms ease-out")),
     ]),
     trigger('openCalendar2', [
       state('open', style({ opacity: 0.6, fontSize: '0.5em', })),
@@ -28,7 +28,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ],
 })
 export class HomePage {
-   @ViewChild('addInput') addInput;
+  @ViewChild('addInput') addInput;
 
   public button_state: string = 'inactive';
   public open_calendar: string = '';
@@ -47,6 +47,7 @@ export class HomePage {
     tomorrow: '',
     twoDaysFromNow: '',
   };
+
 
   public show_add_task: boolean = false;
   public new_task: any = {
@@ -150,10 +151,10 @@ export class HomePage {
   toggleAddTask() {
     this.show_add_task = !this.show_add_task;
     this.button_state = this.show_add_task ? 'active' : 'inactive';
-    setTimeout(()=>{ this.addInput.setFocus(); }, 100)
+    setTimeout(()=>{ this.addInput.setFocus(); }, 500)
   }
 
-  updateDay(day_count = false) {
+  updateDay(day_count:any = false) {
     if(this.open_calendar === 'open') {
       let day = this.today;
       if(day_count) day = day.plus({days:day_count})
@@ -177,5 +178,14 @@ export class HomePage {
     return ("0" + day.day).slice(-2) + '/' + ("0" + day.month).slice(-2);
   }
 
+  swipeEvent(ev) {
+    this.open_calendar = 'open';
+    console.log(ev.direction);
+    if(ev.direction === 2) {
+      this.updateDay(1);
+    } else {
+      this.updateDay(-1);
+    }
+  }
 
 }
