@@ -1,5 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, AlertController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, 
+         NavController, 
+         AlertController, 
+         ActionSheetController, 
+         Content } from 'ionic-angular';
 import { Task } from '../../providers/task';
 import { CustomStorage } from '../../providers/custom-storage';
 import { DateTime } from 'luxon';
@@ -28,6 +32,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ],
 })
 export class HomePage {
+  @ViewChild(Content) content: Content;
   @ViewChild('addInput') addInput;
 
   public button_state: string = 'inactive';
@@ -136,6 +141,7 @@ export class HomePage {
       ]
     });
     confirm.present();
+    this.open_calendar = '';
   }
 
   add_task() {
@@ -151,7 +157,12 @@ export class HomePage {
   toggleAddTask() {
     this.show_add_task = !this.show_add_task;
     this.button_state = this.show_add_task ? 'active' : 'inactive';
-    setTimeout(()=>{ this.addInput.setFocus(); }, 500)
+    setTimeout(()=>{
+      this.addInput.setFocus(); 
+      setTimeout(()=>{
+        this.content.scrollToBottom();
+      }, 200);
+    }, 200);
   }
 
   updateDay(day_count:any = false) {
@@ -185,6 +196,10 @@ export class HomePage {
     } else {
       this.updateDay(-1);
     }
+  }
+
+  public closeCalendar() {
+    this.open_calendar = '';
   }
 
 }

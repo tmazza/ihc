@@ -38,28 +38,27 @@
 
     </div>
     <hr>
-    <ul class='nsb-list'>
-      <li *ngFor='let t of tasks;'
-          [ngClass]="{'set-done':t.done}"
-          (press)="delete(t)"
-          (dblclick)="toggleDone(t)">
-        {{t.description}}
-      </li>
-    </ul>
+    <span (click)="closeCalendar()">
+      <ul class='nsb-list'>
+        <li *ngFor='let t of tasks;'
+            [ngClass]="{'set-done':t.done}"
+            (press)="delete(t)"
+            (dblclick)="toggleDone(t)">
+          {{t.description}}
+        </li>
+      </ul>
 
-    <div class="nsb-button" 
-         (click)="toggleAddTask()" 
-         [@addButton]="button_state">+</div>  
-    <div [hidden]="!show_add_task" *ngIf="new_task">
-      <hr>
-      <ion-list>
-        <ion-item>
-          <ion-textarea #addInput [(ngModel)]="new_task.description" placeholder=""></ion-textarea>
-        </ion-item>
-      </ion-list>
-      <button color='dark' ion-button block (click)="add_task()" [disabled]="!new_task.description">
-        add
-      </button>
-    </div>
+      <div class="nsb-button" 
+           (click)="toggleAddTask()" 
+           [@addButton]="button_state">+</div>  
+      <div [hidden]="!show_add_task" *ngIf="new_task">
+        <hr>
+        <ion-textarea #addInput [(ngModel)]="new_task.description" placeholder=""></ion-textarea>
+        <hr>
+        <button color='dark' ion-button block (click)="add_task()" [disabled]="!new_task.description">
+          add
+        </button>
+      </div>
+    </span>
   </div>
 </ion-content>
