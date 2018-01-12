@@ -38,7 +38,7 @@
 
     </div>
     <hr>
-    <span (click)="closeCalendar()">
+    <div (click)="closeCalendar()">
       <ul class='nsb-list'>
         <li *ngFor='let t of tasks;'
             [ngClass]="{'set-done':t.done}"
@@ -59,6 +59,6 @@
           add
         </button>
       </div>
-    </span>
+    </div>
   </div>
 </ion-content>
