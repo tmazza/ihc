@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="tmz-tecnologia.brute-to-do-list" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>brutal</name>
-    <description>An brutal design to-do list app.</description>
+    <description>Brutalism design to-do list app.</description>
     <author email="tmz@tatu.io" href="https://tmz-tecnologia.com/">TMZ</author>
     <content src="index.html" />
     <access origin="*" />
