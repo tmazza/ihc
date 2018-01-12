@@ -180,7 +180,6 @@ export class HomePage {
 
   swipeEvent(ev) {
     this.open_calendar = 'open';
-    console.log(ev.direction);
     if(ev.direction === 2) {
       this.updateDay(1);
     } else {

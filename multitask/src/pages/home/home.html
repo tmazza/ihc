@@ -1,64 +1,65 @@
-<ion-content padding (swipe)="swipeEvent($event)">
+<ion-content padding>
+  <div class='inner-content' (swipe)="swipeEvent($event)">     
+    <div class="calendar">
+      <span 
+            [ngClass]="{'today':this.real_today==days.twoDaysAgo && open_calendar}" 
+            (click)="updateDay(-2)" 
+            class='hidden' 
+            [@openCalendar2]="open_calendar">
+        {{days.twoDaysAgo}}
+      </span>    
+      <span 
+            [ngClass]="{'today':this.real_today==days.yesterday && open_calendar}" 
+            (click)="updateDay(-1)" 
+            class='hidden' 
+            [@openCalendar]="open_calendar">
+        {{days.yesterday}}
+      </span>
+      <span 
+            [ngClass]="{'today':this.real_today==days.today && open_calendar}" 
+            (click)="open_calendar=open_calendar=='open'?'':'open'"
+            class="current">
+        {{days.today}}
+      </span>
+      <span 
+            [ngClass]="{'today':this.real_today==days.tomorrow && open_calendar}" 
+            (click)="updateDay(1)" 
+            class='hidden' 
+            [@openCalendar]="open_calendar">
+        {{days.tomorrow}}
+      </span>
+      <span 
+            [ngClass]="{'today':this.real_today==days.twoDaysFromNow && open_calendar}" 
+            (click)="updateDay(2)" 
+            class='hidden' 
+            [@openCalendar2]="open_calendar">
+        {{days.twoDaysFromNow}}
+      </span>
 
-  <div class="calendar">
-    <span 
-          [ngClass]="{'today':this.real_today==days.twoDaysAgo && open_calendar}" 
-          (click)="updateDay(-2)" 
-          class='hidden' 
-          [@openCalendar2]="open_calendar">
-      {{days.twoDaysAgo}}
-    </span>    
-    <span 
-          [ngClass]="{'today':this.real_today==days.yesterday && open_calendar}" 
-          (click)="updateDay(-1)" 
-          class='hidden' 
-          [@openCalendar]="open_calendar">
-      {{days.yesterday}}
-    </span>
-    <span 
-          [ngClass]="{'today':this.real_today==days.today && open_calendar}" 
-          (click)="open_calendar=open_calendar=='open'?'':'open'"
-          class="current">
-      {{days.today}}
-    </span>
-    <span 
-          [ngClass]="{'today':this.real_today==days.tomorrow && open_calendar}" 
-          (click)="updateDay(1)" 
-          class='hidden' 
-          [@openCalendar]="open_calendar">
-      {{days.tomorrow}}
-    </span>
-    <span 
-          [ngClass]="{'today':this.real_today==days.twoDaysFromNow && open_calendar}" 
-          (click)="updateDay(2)" 
-          class='hidden' 
-          [@openCalendar2]="open_calendar">
-      {{days.twoDaysFromNow}}
-    </span>
-
-  </div>
-  <hr>
-  <ul class='nsb-list'>
-    <li *ngFor='let t of tasks;'
-        [ngClass]="{'set-done':t.done}"
-        (press)="delete(t)"
-        (dblclick)="toggleDone(t)">
-      {{t.description}}
-    </li>
-  </ul>
-
-  <div class="nsb-button" 
-       (click)="toggleAddTask()" 
-       [@addButton]="button_state">+</div>  
-  <div [hidden]="!show_add_task" *ngIf="new_task">
+    </div>
     <hr>
-    <ion-list>
-      <ion-item>
-        <ion-textarea #addInput [(ngModel)]="new_task.description" placeholder=""></ion-textarea>
-      </ion-item>
-    </ion-list>
-    <button color='dark' ion-button block (click)="add_task()" [disabled]="!new_task.description">
-      add
-    </button>
+    <ul class='nsb-list'>
+      <li *ngFor='let t of tasks;'
+          [ngClass]="{'set-done':t.done}"
+          (press)="delete(t)"
+          (dblclick)="toggleDone(t)">
+        {{t.description}}
+      </li>
+    </ul>
+
+    <div class="nsb-button" 
+         (click)="toggleAddTask()" 
+         [@addButton]="button_state">+</div>  
+    <div [hidden]="!show_add_task" *ngIf="new_task">
+      <hr>
+      <ion-list>
+        <ion-item>
+          <ion-textarea #addInput [(ngModel)]="new_task.description" placeholder=""></ion-textarea>
+        </ion-item>
+      </ion-list>
+      <button color='dark' ion-button block (click)="add_task()" [disabled]="!new_task.description">
+        add
+      </button>
+    </div>
   </div>
 </ion-content>
